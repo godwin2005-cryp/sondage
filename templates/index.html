@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site de Sondage Anonyme - LES COURS SONOU</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Variables CSS */
+        :root {
+            --primary-blue: #1e40af;
+            --secondary-blue: #3b82f6;
+            --light-blue: #dbeafe;
+            --dark-blue: #1e3a8a;
+            --accent-blue: #60a5fa;
+            --success-green: #10b981;
+            --warning-yellow: #f59e0b;
+            --error-red: #ef4444;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --white: #ffffff;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Reset et base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 50%, var(--light-blue) 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 50%, var(--secondary-blue) 100%);
+            color: var(--white);
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--light-blue);
+        }
+
+        .logo-text h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .logo-text p {
+            color: var(--light-blue);
+            font-size: 0.875rem;
+        }
+
+        .nav {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: var(--secondary-blue);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-blue);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Main content */
+        .main {
+            padding: 2rem 0;
+            min-height: calc(100vh - 200px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            color: var(--gray-600);
+            max-width: 42rem;
+            margin: 0 auto;
+            font-size: 1.125rem;
+            line-height: 1.75;
+        }
+
+        /* Survey Form */
+        .survey-container {
+            max-width: 42rem;
+            margin: 0 auto;
+        }
+
+        .survey-card {
+            background: var(--white);
+            border-radius: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.6s ease forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .survey-header {
+            background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--primary-blue) 100%);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .survey-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .survey-header p {
+            color: var(--light-blue);
+        }
+
+        .survey-form {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.75rem;
+        }
+
+        .form-label.required::after {
+            content: ' *';
+            color: var(--error-red);
+        }
+
+        /* Star Rating */
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .star {
+            font-size: 2.5rem;
+            color: var(--gray-300);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .star:hover,
+        .star.active {
+            color: var(--warning-yellow);
+            transform: scale(1.1);
+        }
+
+        /* Form inputs */
+        .form-select,
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--light-blue);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .form-select:focus,
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Checkboxes */
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.75rem;
+        }
+
+        .checkbox-label.small {
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .checkbox {
+            appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid var(--light-blue);
+            border-radius: 0.25rem;
+            position: relative;
+            flex-shrink: 0;
+            margin-top: 0.125rem;
+        }
+
+        .checkbox:checked {
+            background: var(--secondary-blue);
+            border-color: var(--secondary-blue);
+        }
+
+        .checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--white);
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+
+        .improvements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.5rem;
+        }
+
+        /* Buttons */
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--primary-blue) 100%);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Success message */
+        .success-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .success-content {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            max-width: 400px;
+            margin: 1rem;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: var(--success-green);
+            margin-bottom: 1rem;
+        }
+
+        .success-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .success-content p {
+            color: var(--gray-600);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-blue);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-subtitle {
+            color: var(--light-blue);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Utility classes */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            color: white;
+            font-weight: 500;
+            z-index: 9999;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.success { background: var(--success-green); }
+        .notification.error { background: var(--error-red); }
+        .notification.warning { background: var(--warning-yellow); }
+        .notification.info { background: var(--secondary-blue); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 0.75rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.5rem;
+            }
+            
+            .page-header h2 {
+                font-size: 1.875rem;
+            }
+            
+            .survey-form {
+                padding: 1.5rem;
+            }
+            
+            .improvements-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .star {
+                font-size: 2rem;
+            }
+            
+            .success-content {
+                padding: 2rem;
+            }
+            
+            .success-icon {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fas fa-graduation-cap logo-icon"></i>
+                    <div class="logo-text">
+                        <h1>LES COURS SONOU</h1>
+                        <p>Votre avis compte pour nous</p>
+                    </div>
+                </div>
+                <nav class="nav">
+                    <a href="/" class="nav-btn">
+                        <i class="fas fa-home"></i> Accueil
+                    </a>
+                    <a href="/admin" class="nav-btn">
+                        <i class="fas fa-user-shield"></i> Espace Admin
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="page-header">
+                <h2>Votre Opinion Nous Intéresse</h2>
+                <p>Aidez-nous à améliorer la qualité de l'enseignement et des services de LES COURS SONOU. Votre avis anonyme est précieux pour notre développement.</p>
+            </div>
+
+            <div class="survey-container">
+                <div class="survey-card">
+                    <div class="survey-header">
+                        <h3>Évaluation Anonyme</h3>
+                        <p>Donnez-nous votre avis en toute confidentialité</p>
+                    </div>
+                    
+                    <form id="surveyForm" class="survey-form">
+                        <!-- Note de satisfaction -->
+                        <div class="form-group">
+                            <label class="form-label required">Note de satisfaction générale</label>
+                            <div class="star-rating" id="starRating">
+                                <i class="fas fa-star star" data-rating="1"></i>
+                                <i class="fas fa-star star" data-rating="2"></i>
+                                <i class="fas fa-star star" data-rating="3"></i>
+                                <i class="fas fa-star star" data-rating="4"></i>
+                                <i class="fas fa-star star" data-rating="5"></i>
+                            </div>
+                            <input type="hidden" id="satisfaction" name="satisfaction" required>
+                        </div>
+
+                        <!-- Catégorie -->
+                        <div class="form-group">
+                            <label for="category" class="form-label required">Domaine d'évaluation</label>
+                            <select id="category" name="category" class="form-select" required>
+                                <option value="">Sélectionnez un domaine</option>
+                                <option value="Qualité des cours">Qualité des cours</option>
+                                <option value="Infrastructure">Infrastructure</option>
+                                <option value="Personnel enseignant">Personnel enseignant</option>
+                                <option value="Administration">Administration</option>
+                                <option value="Vie étudiante">Vie étudiante</option>
+                                <option value="Équipements">Équipements</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                        </div>
+
+                        <!-- Commentaire -->
+                        <div class="form-group">
+                            <label for="comment" class="form-label required">Votre commentaire</label>
+                            <textarea id="comment" name="comment" class="form-textarea" rows="4" 
+                                      placeholder="Partagez votre expérience, vos suggestions..." required></textarea>
+                        </div>
+
+                        <!-- Recommandation -->
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="wouldRecommend" name="would_recommend" class="checkbox">
+                                <span class="checkmark"></span>
+                                Je recommanderais LES COURS SONOU à un proche
+                            </label>
+                        </div>
+
+                        <!-- Améliorations -->
+                        <div class="form-group">
+                            <label class="form-label">Domaines d'amélioration souhaités</label>
+                            <div class="improvements-grid">
+                                <label class="checkbox-label small">
+                                    <input type="checkbox" name="improvements" value="Améliorer les équipements informatiques" class="checkbox">
+                                    <span class="checkmark"></span>
+                                    Améliorer les équipements informatiques
+                                </label>
+                                <label class="checkbox-label small">
+                                    <input type="checkbox" name="improvements" value="Moderniser les salles de classe" class="checkbox">
+                                    <span class="checkmark"></span>
+                                    Moderniser les salles de classe
+                                </label>
+                                <label class="checkbox-label small">
+                                    <input type="checkbox" name="improvements" value="Augmenter les heures de cours pratiques" class="checkbox">
+                                    <span class="checkmark"></span>
+                                    Augmenter les heures de cours pratiques
+                                </label>
+                                <label class="checkbox-label small">
+                                    <input type="checkbox" name="improvements" value="Améliorer la communication administration-étudiants" class="checkbox">
+                                    <span class="checkmark"></span>
+                                    Améliorer la communication administration-étudiants
+                                </label>
+                                <label class="checkbox-label small">
+                                    <input type="checkbox" name="improvements" value="Développer les activités extra-scolaires" class="checkbox">
+                                    <span class="checkmark"></span>
+                                    Développer les activités extra-scolaires
+                                </label>
+                                <label class="checkbox-label small">
+                                    <input type="checkbox" name="improvements" value="Améliorer la restauration" class="checkbox">
+                                    <span class="checkmark"></span>
+                                    Améliorer la restauration
+                                </label>
+                                <label class="checkbox-label small">
+                                    <input type="checkbox" name="improvements" value="Étendre les horaires de bibliothèque" class="checkbox">
+                                    <span class="checkmark"></span>
+                                    Étendre les horaires de bibliothèque
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            Envoyer mon avis
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 LES COURS SONOU - Tous droits réservés</p>
+            <p class="footer-subtitle">Vos avis sont traités de manière anonyme et confidentielle</p>
+        </div>
+    </footer>
+
+    <!-- Message de succès -->
+    <div id="successMessage" class="success-message hidden">
+        <div class="success-content">
+            <i class="fas fa-check-circle success-icon"></i>
+            <h3>Merci pour votre avis !</h3>
+            <p>Votre feedback anonyme a été enregistré avec succès.</p>
+        </div>
+    </div>
+
+    <script>
+        // Fonctions utilitaires
+        function showMessage(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Variables globales
+        let currentRating = 0;
+        const starRating = document.getElementById('starRating');
+        const satisfactionInput = document.getElementById('satisfaction');
+        const surveyForm = document.getElementById('surveyForm');
+        const successMessage = document.getElementById('successMessage');
+
+        // Gestion du système de notation par étoiles
+        if (starRating) {
+            const stars = starRating.querySelectorAll('.star');
+            
+            stars.forEach((star, index) => {
+                star.addEventListener('mouseenter', function() {
+                    highlightStars(index + 1);
+                });
+                
+                star.addEventListener('mouseleave', function() {
+                    highlightStars(currentRating);
+                });
+                
+                star.addEventListener('click', function() {
+                    currentRating = index + 1;
+                    satisfactionInput.value = currentRating;
+                    highlightStars(currentRating);
+                });
+            });
+            
+            function highlightStars(rating) {
+                stars.forEach((star, index) => {
+                    if (index < rating) {
+                        star.classList.add('active');
+                    } else {
+                        star.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        // Soumission du formulaire
+        if (surveyForm) {
+            surveyForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validation
+                if (currentRating === 0) {
+                    showMessage('Veuillez donner une note de satisfaction', 'error');
+                    return;
+                }
+                
+                const formData = new FormData(surveyForm);
+                const category = formData.get('category');
+                const comment = formData.get('comment');
+                
+                if (!category || !comment.trim()) {
+                    showMessage('Veuillez remplir tous les champs obligatoires', 'error');
+                    return;
+                }
+                
+                // Collecte des améliorations sélectionnées
+                const improvements = [];
+                const improvementCheckboxes = document.querySelectorAll('input[name="improvements"]:checked');
+                improvementCheckboxes.forEach(checkbox => {
+                    improvements.push(checkbox.value);
+                });
+                
+                // Préparation des données
+                const surveyData = {
+                    satisfaction: currentRating,
+                    category: category,
+                    comment: comment.trim(),
+                    would_recommend: formData.get('would_recommend') === 'on',
+                    improvements: improvements
+                };
+                
+                // Envoi des données
+                submitSurvey(surveyData);
+            });
+        }
+
+        function submitSurvey(data) {
+            // Affichage du loading
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+            submitBtn.disabled = true;
+            
+            fetch('/api/submit_survey', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    showSuccessMessage();
+                    resetForm();
+                } else {
+                    showMessage(result.message || 'Erreur lors de l\'envoi', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                showMessage('Erreur de connexion', 'error');
+            })
+            .finally(() => {
+                // Restauration du bouton
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        }
+
+        function showSuccessMessage() {
+            successMessage.classList.remove('hidden');
+            
+            // Fermeture automatique après 3 secondes
+            setTimeout(() => {
+                successMessage.classList.add('hidden');
+            }, 3000);
+            
+            // Fermeture au clic
+            successMessage.addEventListener('click', function() {
+                successMessage.classList.add('hidden');
+            });
+        }
+
+        function resetForm() {
+            surveyForm.reset();
+            currentRating = 0;
+            satisfactionInput.value = '';
+            
+            // Reset des étoiles
+            const stars = document.querySelectorAll('.star');
+            stars.forEach(star => star.classList.remove('active'));
+        }
+    </script>
+</body>
+</html>
